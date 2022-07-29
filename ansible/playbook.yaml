@@ -1,0 +1,41 @@
+---
+- name: configure ssh service and docker 
+  hosts: task
+  become: yes
+  tasks:
+    - name: create home directory
+      file:
+        name: jenkins_home
+        state: directory
+        mode: 0777
+    - name: install openjdk
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+    - name: Update EC2
+      yum:
+        name: '*'
+        state: latest
+        update_only: yes
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: latest
+        update_cache: yes
+
+    - name: Enable Docker CE service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: install git
+      yum:
+        name: git
+        state: present
+        update_cache: yes
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./agent.jar
+        dest: /home/ec2-user/jenkins_home
+        mode: '0644'

@@ -1,0 +1,10 @@
+host bastion
+   HostName 54.80.204.27
+   User ec2-user
+   identityFile ~/.ssh/test-keypair.pem
+
+host privateInstance
+   HostName 10.0.1.41
+   user ec2-user
+   ProxyCommand ssh bastion -W %h:%p
+   identityFile ~/.ssh/test-keypair.pem

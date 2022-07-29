@@ -1,0 +1,45 @@
+pipeline {
+    agent {label 'ec2-agent'}
+
+    stages {
+        stage('clone rds_redis branch') {
+            steps {
+                echo 'clonie rds and redis branch with Dockerfile to build it...'
+                git branch: 'rds_redis',
+                url: 'https://github.com/MahmoudAbdelFatah/jenkins_nodejs_example.git'
+            }
+        }
+        stage('build image and push to docker hub') {
+            steps {
+                echo 'building docker image...'
+                withCredentials([
+                    usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PWD')
+                ]) {
+                    sh 'docker build -t mahmoudteha/nodejs:2.0 .'
+                    sh "echo $PWD | docker login -u $USER --password-stdin"
+                    sh 'docker push mahmoudteha/nodejs:2.0'
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                echo 'deploying the application...'
+                withCredentials([
+                    usernamePassword(credentialsId: 'rds-credentials', usernameVariable: 'USER', passwordVariable: 'PWD')
+                ]) {
+                    sh '''
+                        docker run -d -p 3000:3000  \
+                        -e RDS_HOSTNAME=tf-lb-20220728122151718100000001-1306615259.us-east-1.elb.amazonaws.com \
+                        -e RDS_USERNAME=${USER} \
+                        -e RDS_PASSWORD=${PWD} \
+                        -e RDS_PORT=3306 \
+                        -e REDIS_HOSTNAME=cluster-test.ryycex.0001.use1.cache.amazonaws.com:6379 \
+                        -e  REDIS_PORT=6379 \
+                        mahmoudteha/nodejs:2.0    
+                    '''
+                }
+                
+            }
+        }
+    }
+}
