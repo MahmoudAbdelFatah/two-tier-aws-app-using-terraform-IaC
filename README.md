@@ -21,6 +21,7 @@ Terraform project to configure AWS services for a backend App.
 - Jenkins
 - Ansible
 - Terraform
+- Docker & Docker Hub
 
 ## Project Steps
 
