@@ -7,7 +7,7 @@
       file:
         name: jenkins_home
         state: directory
-        mode: 0777
+        mode: '0777'
     - name: install openjdk
       yum:
         name: java-1.8.0-openjdk
@@ -34,8 +34,13 @@
         name: git
         state: present
         update_cache: yes
+    - name: create home directory
+      file:
+        name: bin
+        state: directory
+        mode: '0777'
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
         src: ./agent.jar
-        dest: /home/ec2-user/jenkins_home
+        dest: /home/ec2-user/bin
         mode: '0644'

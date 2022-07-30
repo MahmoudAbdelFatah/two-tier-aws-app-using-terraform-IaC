@@ -2,12 +2,12 @@
 
 ## Project Overview
 
-Terraform project to configure AWS services for a backend App.
+Terraform project to provision AWS resources for a backend App. Configure the instance using ansible, then deploy the application from a docker image using jenkins pipeline.
 
 
 ## Objectives
 
-- Use Terraform to configure AWS services
+- Use Terraform to configure AWS resources
 - Use the S3 bucket to state management file
 - Use DynamoDB to lock sync terraform apply
 - Use Lambda Trigger to detect changes in the state file and send the email by SES service
