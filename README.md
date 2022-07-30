@@ -2,15 +2,17 @@
 
 ## Project Overview
 
-Terraform project to provision AWS resources for a backend App. Configure the instance using ansible, then deploy the application from a docker image using jenkins pipeline.
+Terraform project to provision AWS resources for a backend App. Configure 2 instance bastion and remote for RDS and redis ElastiCach, and run jenkins pipeline on the a remote instance as an agent for this pipeline by using the proxy configuration to redirect ssh from bastion to private directlly.
 
 
 ## Objectives
 
-- Use Terraform to configure AWS resources
-- Use the S3 bucket to state management file
+- Use Terraform to provision AWS resources
+- Use S3 bucket to keep state management file versioning
 - Use DynamoDB to lock sync terraform apply
-- Use Lambda Trigger to detect changes in the state file and send the email by SES service
+- Use Lambda Trigger to detect changes in the state file and send an email by SES service
+- Use Ansible to configure the instances on aws
+- Use Jenkins pipeline to deploy an application from image docker hub
 
 
 ## Tools Used
