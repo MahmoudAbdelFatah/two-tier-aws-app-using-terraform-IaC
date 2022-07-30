@@ -9,8 +9,8 @@ resource "aws_db_instance" "mysql_db" {
   parameter_group_name   = var.parameter_group_name_mysql
   vpc_security_group_ids = [aws_security_group.sg2.id]
   db_subnet_group_name   = aws_db_subnet_group.mysql-subnet.name
-  publicly_accessible = true
-  
+  publicly_accessible    = true
+
 }
 
 resource "aws_db_subnet_group" "mysql-subnet" {
@@ -26,7 +26,7 @@ resource "aws_elasticache_cluster" "redis_elastic_cluster" {
   parameter_group_name = var.parameter_group_name_redis
   security_group_ids   = [aws_security_group.sg2.id]
   subnet_group_name    = aws_elasticache_subnet_group.redis-subnet.name
-  port = var.port
+  port                 = var.port
 }
 
 resource "aws_elasticache_subnet_group" "redis-subnet" {

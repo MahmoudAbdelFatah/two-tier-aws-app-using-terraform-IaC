@@ -70,7 +70,7 @@ resource "aws_security_group" "sg2" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-    ingress {
+  ingress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"

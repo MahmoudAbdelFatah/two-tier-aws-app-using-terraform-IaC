@@ -13,7 +13,7 @@ resource "aws_key_pair" "keypair" {
 
 #create secret manager to store the private keypair 
 resource "aws_secretsmanager_secret" "sm-keypairs" {
-  name                    = "sm-keypairs-1"
+  name                    = "sm-keypairs-2"
   recovery_window_in_days = 0
 }
 
